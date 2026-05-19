@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CryptoLearn - کرپٹو سیکھیں</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,sans-serif;background:#0a0a1a;color:#fff;min-height:100vh;}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px;text-align:center;border-bottom:2px solid #f0b90b;}
+.header h1{color:#f0b90b;font-size:28px;}
+.header p{color:#aaa;margin-top:5px;}
+.nav{display:flex;justify-content:center;gap:10px;padding:15px;background:#16213e;flex-wrap:wrap;}
+.nav button{background:#0f3460;color:#fff;border:none;padding:10px 20px;border-radius:25px;cursor:pointer;font-size:14px;transition:all 0.3s;}
+.nav button.active,.nav button:hover{background:#f0b90b;color:#000;font-weight:bold;}
+.container{max-width:800px;margin:20px auto;padding:0 15px;}
+.section{display:none;}
+.section.active{display:block;}
+.price-card{background:#16213e;border-radius:15px;padding:15px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;border:1px solid #0f3460;}
+.coin-name{font-size:18px;font-weight:bold;}
+.coin-price{font-size:20px;color:#f0b90b;}
+.change-pos{color:#00ff88;}
+.change-neg{color:#ff4444;}
+.signal-card{background:#16213e;border-radius:15px;padding:15px;margin:10px 0;border:1px solid #0f3460;}
+.signal-badge{font-size:20px;font-weight:bold;margin-bottom:5px;}
+.lesson-card{background:#16213e;border-radius:15px;padding:20px;margin:10px 0;cursor:pointer;border:1px solid #0f3460;transition:all 0.3s;}
+.lesson-card:hover{border-color:#f0b90b;}
+.lesson-title{font-size:18px;color:#f0b90b;margin-bottom:8px;}
+.lesson-content{color:#aaa;display:none;margin-top:10px;line-height:1.8;}
+.lesson-content.show{display:block;}
+.quiz-card{background:#16213e;border-radius:15px;padding:20px;margin:10px 0;}
+.quiz-q{font-size:16px;margin-bottom:15px;color:#f0b90b;}
+.quiz-opt{background:#0f3460;border:none;color:#fff;padding:10px 15px;margin:5px 0;border-radius:10px;cursor:pointer;width:100%;text-align:right;font-size:14px;}
+.quiz-opt:hover{background:#f0b90b;color:#000;}
+.correct{background:#00ff88!important;color:#000!important;}
+.wrong{background:#ff4444!important;}
+.refresh-btn{background:#f0b90b;color:#000;border:none;padding:10px 25px;border-radius:25px;cursor:pointer;font-weight:bold;margin:10px auto;display:block;}
+.loading{text-align:center;color:#f0b90b;padding:20px;}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>🪙 CryptoLearn</h1>
+<p>کرپٹو سیکھیں — آسان اردو میں</p>
+</div>
+<div class="nav">
+<button class="active" onclick="showSection('prices')">💰 قیمتیں</button>
+<button onclick="showSection('signals')">📊 سگنلز</button>
+<button onclick="showSection('learn')">📚 سیکھیں</button>
+<button onclick="showSection('quiz')">🧠 کوئز</button>
+</div>
+<div class="container">
+<div id="prices" class="section active">
+<h2 style="color:#f0b90b;margin:15px 0;">لائیو کرپٹو قیمتیں</h2>
+<div id="priceList"><div class="loading">لوڈ ہو رہا ہے...</div></div>
+<button class="refresh-btn" onclick="loadPrices()">🔄 تازہ کریں</button>
+</div>
+<div id="signals" class="section">
+<h2 style="color:#f0b90b;margin:15px 0;">ٹریڈنگ سگنلز</h2>
+<div id="signalList"><div class="loading">لوڈ ہو رہا ہے...</div></div>
+<button class="refresh-btn" onclick="loadSignals()">🔄 تازہ کریں</button>
+</div>
+<div id="learn" class="section">
+<h2 style="color:#f0b90b;margin:15px 0;">کرپٹو سیکھیں</h2>
+<div class="lesson-card" onclick="toggleLesson(this)">
+<div class="lesson-title">1. کرپٹو کرنسی کیا ہے؟</div>
+<div class="lesson-content">کرپٹو کرنسی ایک ڈیجیٹل کرنسی ہے جو blockchain ٹیکنالوجی پر کام کرتی ہے۔ یہ کسی بینک یا حکومت کے کنٹرول میں نہیں ہوتی۔ Bitcoin دنیا کی پہلی کرپٹو کرنسی ہے جو 2009 میں بنائی گئی۔</div>
+</div>
+<div class="lesson-card" onclick="toggleLesson(this)">
+<div class="lesson-title">2. Blockchain کیا ہے؟</div>
+<div class="lesson-content">Blockchain ایک ڈیجیٹل بہی کھاتہ ہے جہاں تمام transactions محفوظ ہوتی ہیں۔ ہر block میں data ہوتا ہے اور یہ blocks ایک chain میں جڑے ہوتے ہیں۔ اسے hack کرنا تقریباً ناممکن ہے۔</div>
+</div>
+<div class="lesson-card" onclick="toggleLesson(this)">
+<div class="lesson-title">3. Bitcoin vs Ethereum</div>
+<div class="lesson-content">Bitcoin ڈیجیٹل سونا ہے — یہ صرف پیسے کی طرح کام کرتا ہے۔ Ethereum ایک platform ہے جہاں apps اور smart contracts بنائے جاتے ہیں۔ دونوں مختلف مقاصد کے لیے ہیں۔</div>
+</div>
+<div class="lesson-card" onclick="toggleLesson(this)">
+<div class="lesson-title">4. Wallet کیا ہے؟</div>
+<div class="lesson-content">Crypto wallet آپ کی ڈیجیٹل جیب ہے۔ اس میں آپ کی کرپٹو کرنسی محفوظ رہتی ہے۔ Hot wallet (online) اور Cold wallet (offline) دو قسمیں ہیں۔ Hardware wallet سب سے محفوظ ہے۔</div>
+</div>
+<div class="lesson-card" onclick="toggleLesson(this)">
+<div class="lesson-title">5. Trading کیسے کریں؟</div>
+<div class="lesson-content">Trading میں کم قیمت پر خریدیں اور زیادہ قیمت پر بیچیں۔ Binance، KuCoin جیسے exchanges استعمال کریں۔ ہمیشہ stop-loss لگائیں اور صرف وہ پیسے لگائیں جو ضائع ہو سکیں۔</div>
+</div>
+<div class="lesson-card" onclick="toggleLesson(this)">
+<div class="lesson-title">6. Chart پڑھنا سیکھیں</div>
+<div class="lesson-content">Green candle مطلب قیمت اوپر گئی۔ Red candle مطلب قیمت نیچے گئی۔ Support level وہ جگہ جہاں قیمت رکتی ہے۔ Resistance level وہ جگہ جہاں قیمت اٹکتی ہے۔ RSI indicator overbought اور oversold بتاتا ہے۔</div>
+</div>
+</div>
+<div id="quiz" class="section">
+<h2 style="color:#f0b90b;margin:15px 0;">کوئز — اپنا علم جانچیں</h2>
+<div id="quizContainer"></div>
+</div>
+</div>
+<script>
+const questions=[
+{q:"کرپٹو کرنسی کس ٹیکنالوجی پر کام کرتی ہے؟",opts:["Blockchain","WiFi","Cloud","Database"],ans:0},
+{q:"Bitcoin کب بنائی گئی؟",opts:["2005","2009","2012","2015"],ans:1},
+{q:"Ethereum کس چیز کے لیے مشہور ہے؟",opts:["صرف پیسے","Smart Contracts","Gaming","Social Media"],ans:1},
+{q:"سب سے محفوظ wallet کون سا ہے؟",opts:["Mobile Wallet","Hot Wallet","Hardware Wallet","Paper"],ans:2},
+{q:"Green candle کا مطلب کیا ہے؟",opts:["قیمت گری","قیمت بڑھی","کوئی تبدیلی نہیں","Market بند"],ans:1},
+{q:"Trading میں stop-loss کیوں لگاتے ہیں؟",opts:["زیادہ منافع","نقصان روکنے","Tax بچانے","Speed بڑھانے"],ans:1}
+];
+let score=0;
+function showSection(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+event.target.classList.add('active');
+if(id==='prices')loadPrices();
+if(id==='signals')loadSignals();
+if(id==='quiz')loadQuiz();
+}
+function toggleLesson(card){
+const content=card.querySelector('.lesson-content');
+content.classList.toggle('show');
+}
+async function loadPrices(){
+document.getElementById('priceList').innerHTML='<div class="loading">لوڈ ہو رہا ہے...</div>';
+try{
+const r=await fetch('/api/prices');
+const data=await r.json();
+const coins={bitcoin:'Bitcoin ₿',ethereum:'Ethereum Ξ',binancecoin:'BNB',solana:'Solana',cardano:'Cardano'};
+let html='';
+for(const[key,name] of Object.entries(coins)){
+if(data[key]){
+const change=data[key].usd_24h_change?.toFixed(2)||0;
+html+=`<div class="price-card"><div><div class="coin-name">${name}</div><div class="${change>=0?'change-pos':'change-neg'}">${change>=0?'▲':'▼'} ${Math.abs(change)}%</div></div><div class="coin-price">$${data[key].usd?.toLocaleString()}</div></div>`;
+}}
+document.getElementById('priceList').innerHTML=html||'<div class="loading">ڈیٹا نہیں ملا</div>';
+}catch(e){document.getElementById('priceList').innerHTML='<div class="loading">انٹرنیٹ چیک کریں</div>';}
+}
+async function loadSignals(){
+document.getElementById('signalList').innerHTML='<div class="loading">لوڈ ہو رہا ہے...</div>';
+try{
+const r=await fetch('/api/signals');
+const data=await r.json();
+let html='';
+data.forEach(s=>{
+html+=`<div class="signal-card"><div class="signal-badge">${s.signal} ${s.name} (${s.symbol})</div><div>قیمت: $${s.price?.toLocaleString()}</div><div class="${s.change>=0?'change-pos':'change-neg'}">24h: ${s.change?.toFixed(2)}%</div></div>`;
+});
+document.getElementById('signalList').innerHTML=html;
+}catch(e){document.getElementById('signalList').innerHTML='<div class="loading">انٹرنیٹ چیک کریں</div>';}
+}
+function loadQuiz(){
+score=0;
+let html='';
+questions.forEach((q,i)=>{
+html+=`<div class="quiz-card"><div class="quiz-q">${i+1}. ${q.q}</div>`;
+q.opts.forEach((opt,j)=>{
+html+=`<button class="quiz-opt" onclick="checkAns(this,${i},${j})">${opt}</button>`;
+});
+html+='</div>';
+});
+html+=`<div id="score" style="text-align:center;font-size:20px;color:#f0b90b;padding:20px;"></div>`;
+document.getElementById('quizContainer').innerHTML=html;
+}
+function checkAns(btn,qi,ai){
+const card=btn.parentElement;
+const btns=card.querySelectorAll('.quiz-opt');
+btns.forEach(b=>b.disabled=true);
+if(ai===questions[qi].ans){btn.classList.add('correct');score++;}
+else{btn.classList.add('wrong');btns[questions[qi].ans].classList.add('correct');}
+const answered=document.querySelectorAll('.quiz-opt:disabled').length/4;
+if(answered===questions.length){
+document.getElementById('score').innerHTML=`آپ کا سکور: ${score}/${questions.length} 🎉`;
+}
+}
+loadPrices();
+</script>
+</body>
+</html>
