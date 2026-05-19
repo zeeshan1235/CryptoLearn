@@ -1,0 +1,10 @@
+{
+  "name": "CryptoLearn",
+  "short_name": "CryptoLearn",
+  "description": "کرپٹو سیکھیں اردو میں",
+  "start_url": "/CryptoLearn/",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#f0b90b",
+  "icons": [{"src": "https://via.placeholder.com/512x512", "sizes": "512x512", "type": "image/png"}]
+}
